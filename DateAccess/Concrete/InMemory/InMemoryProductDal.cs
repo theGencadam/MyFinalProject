@@ -1,5 +1,6 @@
 ﻿using DateAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,15 +39,12 @@ namespace DateAccess.Concrete.InMemory
             _products.Remove(productToDelete);
         }
 
-        public Product Get(Expression<Func<Product, bool>> filter)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Product> GetAll()
         {
             return _products;
         }
+
+        
 
         public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
         {
@@ -66,6 +64,15 @@ namespace DateAccess.Concrete.InMemory
             productToUpdate.CategoryId = product.CategoryId;
             productToUpdate.UnitPrice = product.UnitPrice;
             productToUpdate.UnitsInStock = product.UnitsInStock;
+        }
+        public Product Get(Expression<Func<Product, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ProductDetailDto> GetProductDetails()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,14 +1,16 @@
-﻿using Entities.Abstract;
+﻿
+using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace DateAccess.Abstract
+namespace Core.DataAccess
 {
     //generic constraint
     //class : referans tip olabilir
     //IEntity olabilir veya IEntity eden bir nesne olabilir
+    //new() new 'lenebilir olmalı
     public interface IEntityRepository<T> where T:class,IEntity,new()
     {
         List<T> GetAll(Expression<Func<T,bool>> filter=null);
