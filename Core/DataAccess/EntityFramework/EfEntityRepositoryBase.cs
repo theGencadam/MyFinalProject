@@ -12,7 +12,7 @@ namespace Core.DataAccess.EntityFramework
         where TEntity: class, IEntity, new()
        where TContext: DbContext, new()
     {
-        public void Add(TEntity  entity)
+        public void Add(TEntity entity)
         {
             //IDisposable pattern implementation of c#
             using (TContext context = new TContext())
@@ -33,6 +33,14 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
+        public TEntity Get(Expression<Func<TEntity, bool>> filter)
+        {
+            using (TContext context = new TContext())
+            {
+                return context.Set<TEntity>().SingleOrDefault(filter);
+            }
+        }
+
         public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
             using (TContext context = new TContext())
@@ -43,18 +51,12 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> filter)
-        {
-            using (TContext context = new TContext())
-                return context.Set<TEntity>().SingleOrDefault(filter);
-        }
-
         public void Update(TEntity entity)
         {
             using (TContext context = new TContext())
             {
-                var updateEntity = context.Entry(entity);
-                updateEntity.State = EntityState.Modified;
+                var updatedEntity = context.Entry(entity);
+                updatedEntity.State = EntityState.Modified;
                 context.SaveChanges();
             }
         }

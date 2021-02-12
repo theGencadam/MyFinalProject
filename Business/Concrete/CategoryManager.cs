@@ -18,11 +18,11 @@ namespace Business.Concrete
 
         public List<Category> GetAll()
         {
-            //iş kodları yazarım
+            //İş kodları
             return _categoryDal.GetAll();
         }
 
-        //Select * from Categories where Category=3
+        //Select * from Categories where CategoryId = 3
         public Category GetById(int categoryId)
         {
             return _categoryDal.Get(c => c.CategoryId == categoryId);
