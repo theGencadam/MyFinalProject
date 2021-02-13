@@ -17,7 +17,7 @@ namespace DateAccess.Concrete.EntityFramework
     {
         public List<ProductDetailDto> GetProductDetails()
         {
-            using (NorthwindContext context = new NorthwindContext()) ;
+            using (NorthwindContext context = new NorthwindContext()) 
             {
                 var result = from p in context.Products
                              join c in context.Categories
@@ -27,8 +27,9 @@ namespace DateAccess.Concrete.EntityFramework
                                  ProductId = p.ProductId,
                                  ProductName = p.ProductName,
                                  CategoryName = c.CategoryName,
-                                 UnittsInStock = p.UnitsInstock
+                                 UnitsInStock = p.UnitsInStock
                              };
+                return result.ToList();
             } 
         }
     }
