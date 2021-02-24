@@ -1,10 +1,13 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DateAccess.Abstract;
-using DateAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,19 +23,17 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
             //business codes
 
-            if (product.ProductName.Length < 2)
-            {
-                //magic strings
-                return new ErrorResult(Messages.ProductNameInvalid);
-            }
             _productDal.Add(product);
 
             return new SuccessResult(Messages.ProductAdded);
         }
+
 
         public IDataResult<List<Product>> GetAll()
         {
@@ -46,15 +47,12 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetAllByCategory(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public IDataResult<List<Product>> GetAllByCategoryId(int id)
-        {
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id));
         }
 
-        public IDataResult<Product> GetById(int productId)
+        
+
+        public IResult GetById(int productId)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
         }
@@ -73,9 +71,6 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
 
-        IResult IProductService.GetById(int productId)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
